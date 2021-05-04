@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <div>Авторизация</div>
     <input class="login_input" id="usernameInput" v-model="username" placeholder="Введите логин или email">
     <input class="login_input" id="passwordInput" v-model="password" placeholder="Введите пароль">
     <button class="login_button" @click="login">Войти</button>
@@ -36,7 +37,7 @@ export default {
   width: 300px;
   height: 60px;
   border-radius: 15px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   font-size: 20px;
   padding: 10px 15px;
 }
@@ -44,5 +45,6 @@ export default {
 .login_button {
   width: 100px;
   height: 40px;
+  margin-top: 20px;
 }
 </style>
