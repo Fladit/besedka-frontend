@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <div>Авторизация</div>
+    <BaseAuthInput v-model="username" placeholder="Введите логин или email" :error-message="error"/>
     <input class="login_input" id="usernameInput" v-model="username" placeholder="Введите логин или email">
     <input class="login_input" id="passwordInput" v-model="password" placeholder="Введите пароль">
     <button class="login_button" @click="login">Войти</button>
@@ -8,17 +9,23 @@
 </template>
 
 <script>
+import BaseAuthInput from "@/components/BaseAuthInput";
 export default {
   name: "Login",
+  components: {BaseAuthInput},
   data: function () {
     return {
+      error: '',
       username: '',
       password: '',
     }
   },
   methods: {
     async login() {
-      console.log("Login")
+      if (this.error)
+        this.error = ""
+      else this.error = "test"
+      console.log("Login", this.error)
     }
   }
 }
