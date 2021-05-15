@@ -1,20 +1,22 @@
 <template>
   <div class="registration">
     <div class="registration_label">Регистрация</div>
-    <input class="registration_input" v-model="user.username" placeholder="Введите имя аккаунта">
-    <input class="registration_input" v-model="user.password" placeholder="Введите пароль">
-    <input class="registration_input" v-model="passwordRetry" placeholder="Введите пароль повторно">
-    <input class="registration_input" v-model="user.email" placeholder="Введите email">
-    <input class="registration_input" v-model="user.firstName" placeholder="Введите имя">
-    <input class="registration_input" v-model="user.lastName" placeholder="Введите фамилию">
-    <input class="registration_input" v-model="user.birthDay">
+    <BaseAuthInput v-model="user.username" placeholder="Введите имя аккаунта"/>
+    <BaseAuthInput v-model="user.password" placeholder="Введите пароль"/>
+    <BaseAuthInput v-model="passwordRetry" placeholder="Введите пароль повторно"/>
+    <BaseAuthInput v-model="user.email" placeholder="Введите email"/>
+    <BaseAuthInput v-model="user.firstName" placeholder="Введите имя"/>
+    <BaseAuthInput v-model="user.lastName" placeholder="Введите фамилию"/>
+    <BaseAuthInput v-model="user.birthDay"/>
     <button class="registration_button" :disabled="isButtonDisabled">Зарегистрироваться</button>
   </div>
 </template>
 
 <script>
+import BaseAuthInput from "@/components/BaseAuthInput";
 export default {
   name: "TheRegistrationWindow",
+  components: {BaseAuthInput},
   data() {
     return {
       user: {

@@ -7,7 +7,10 @@
   </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 <script>
+import {rulesEnum, rulesError} from "@/utils/errorRules";
+
 export default {
   name: "BaseAuthInput",
   props: {
@@ -15,7 +18,50 @@ export default {
     placeholder: String,
     minLength: Number,
     maxLength: Number,
-    errorMessage: String,
+    rules: Object,
+  },
+  data: function () {
+    return {
+      errorMessage: ""
+    }
+  },
+  watch: {
+    value: function (val) {
+      _.debounce(() => {
+        if (this.checkErrors(val)) {
+          this.$emit('validateInput', val)
+        }
+      }, 300)
+    }
+  },
+  methods: {
+    checkErrors: function (value) {
+      for (const property in this.rules) {
+        switch (property) {
+          case rulesEnum.MIN_LENGTH: {
+            if (value.length < this.rules[property]) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false;
+            }
+
+          }
+          case rulesEnum.MAX_LENGTH: {
+            if (!(value.length < this.rules[property])) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false
+            }
+          }
+
+          case rulesEnum.CAN_BE_EMPTY: {
+            continue
+          }
+
+          default: {
+
+          }
+        }
+      }
+    }
   }
 }
 </script>
@@ -27,6 +73,7 @@ input {
   border-radius: 15px;
   font-size: 20px;
   padding: 20px 10px;
+  margin-top: 20px;
 }
 input[error=true] {
   border-color: red;

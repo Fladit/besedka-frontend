@@ -1,15 +1,15 @@
 <template>
   <div class="login">
     <div>Авторизация</div>
-    <BaseAuthInput v-model="username" placeholder="Введите логин или email" :error-message="error"/>
-    <input class="login_input" id="usernameInput" v-model="username" placeholder="Введите логин или email">
-    <input class="login_input" id="passwordInput" v-model="password" placeholder="Введите пароль">
+    <BaseAuthInput v-model="username" @validate="validateUsername" placeholder="Введите логин или email"/>
+    <BaseAuthInput v-model="password" placeholder="Введите пароль"/>
     <button class="login_button" @click="login">Войти</button>
   </div>
 </template>
 
 <script>
 import BaseAuthInput from "@/components/BaseAuthInput";
+import {rulesEnum} from "@/utils/errorRules";
 export default {
   name: "Login",
   components: {BaseAuthInput},
@@ -18,15 +18,22 @@ export default {
       error: '',
       username: '',
       password: '',
+      usernameRules: {
+        [rulesEnum.MIN_LENGTH]: 3,
+        [rulesEnum.MAX_LENGTH]: 15,
+      }
     }
   },
   methods: {
-    async login() {
+    login: async function () {
       if (this.error)
         this.error = ""
       else this.error = "test"
       console.log("Login", this.error)
-    }
+    },
+    validateUsername: function (val) {
+
+    },
   }
 }
 </script>
