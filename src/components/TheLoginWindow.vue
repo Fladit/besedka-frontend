@@ -1,23 +1,30 @@
 <template>
   <div class="login">
     <div>Авторизация</div>
-    <BaseAuthInput v-model="username" @validate="validateUsername" placeholder="Введите логин или email"/>
+    <BaseAuthInput v-model="username" :validateInput="validateUsername" :rules="usernameRules"
+                   v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
+                   placeholder="Введите логин или email"/>
     <BaseAuthInput v-model="password" placeholder="Введите пароль"/>
-    <button class="login_button" @click="login">Войти</button>
+    <button :disabled="isButtonDisabled" class="login_button" @click="login">Войти</button>
   </div>
 </template>
 
 <script>
 import BaseAuthInput from "@/components/BaseAuthInput";
 import {rulesEnum} from "@/utils/errorRules";
+import {AuthValidation} from "@/utils/AuthValidation";
+import _ from "lodash";
 export default {
   name: "Login",
   components: {BaseAuthInput},
   data: function () {
     return {
-      error: '',
+      errors: {
+        hasUsernameError: false,
+      },
       username: '',
       password: '',
+      isButtonDisabled: false,
       usernameRules: {
         [rulesEnum.MIN_LENGTH]: 3,
         [rulesEnum.MAX_LENGTH]: 15,
@@ -26,15 +33,29 @@ export default {
   },
   methods: {
     login: async function () {
-      if (this.error)
-        this.error = ""
-      else this.error = "test"
+
       console.log("Login", this.error)
     },
-    validateUsername: function (val) {
-
-    },
-  }
+    validateUsername: AuthValidation.validateUsername
+  },
+  watch: {
+    errors: {
+      handler: function (errors) {
+        //console.log("change")
+        for (const property in errors) {
+          if (errors[property]) {
+            if (!this.isButtonDisabled) {
+              this.isButtonDisabled = !this.isButtonDisabled
+              return ;
+            }
+          }
+        }
+        if (this.isButtonDisabled)
+          this.isButtonDisabled = !this.isButtonDisabled
+      },
+      deep: true,
+    }
+  },
 }
 </script>
 

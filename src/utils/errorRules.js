@@ -5,8 +5,8 @@ const rulesEnum = {
 }
 
 const rulesError = {
-    [rulesEnum.MIN_LENGTH]: (minLength) => `Минимальная длина ${minLength} символов}`,
-    [rulesEnum.MAX_LENGTH]: (maxLength) => `Максимальная длина ${maxLength} символов`,
+    [rulesEnum.MIN_LENGTH]: (minLength) => `Минимальная длина содержимого: ${minLength}`,
+    [rulesEnum.MAX_LENGTH]: (maxLength) => `Максимальная длина содержимого: ${maxLength}`,
     [rulesEnum.CAN_BE_EMPTY]: () => "Поле не должно быть пустым",
 }
 

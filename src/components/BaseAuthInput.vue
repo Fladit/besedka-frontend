@@ -1,13 +1,12 @@
 <template>
   <div class="auth-input">
-    <input v-bind:value="value" :error="!!errorMessage" @change="$emit('input', $event.target.value)" v-bind:placeholder="placeholder">
+    <input v-bind:value="value" @input="$emit('input', $event.target.value)" :error="!!errorMessage" v-bind:placeholder="placeholder">
     <div class="auth-input_error"  v-if="errorMessage">
       <div class="auth-input_error-message">{{errorMessage}}</div>
     </div>
   </div>
 </template>
 
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 <script>
 import {rulesEnum, rulesError} from "@/utils/errorRules";
 
@@ -18,50 +17,75 @@ export default {
     placeholder: String,
     minLength: Number,
     maxLength: Number,
+    hasError: Boolean,
+    validateInput: Function,
     rules: Object,
   },
   data: function () {
     return {
-      errorMessage: ""
+      errorMessage: "",
+      myDebouncedValidation: this.myDebounce(async (value) => {
+        //console.log("deb", value)
+        if (this.checkErrors(value)) {
+          console.log("access")
+          this.errorMessage = await this.validateInput(value)
+        }
+      }, 800)
     }
   },
   watch: {
-    value: function (val) {
-      _.debounce(() => {
-        if (this.checkErrors(val)) {
-          this.$emit('validateInput', val)
-        }
-      }, 300)
+    value: function (newValue) {
+      console.log(newValue)
+      //this.debouncedValidation(newValue)
+      this.myDebouncedValidation(newValue)
+    },
+    errorMessage: function (newValue, oldValue) {
+      if (!newValue && oldValue || newValue && !oldValue) {
+        this.$emit("update:hasError")
+      }
     }
   },
   methods: {
     checkErrors: function (value) {
       for (const property in this.rules) {
+        console.log(property, this.rules[property])
         switch (property) {
           case rulesEnum.MIN_LENGTH: {
             if (value.length < this.rules[property]) {
               this.errorMessage = rulesError[property](this.rules[property])
               return false;
             }
-
+            break;
           }
           case rulesEnum.MAX_LENGTH: {
             if (!(value.length < this.rules[property])) {
               this.errorMessage = rulesError[property](this.rules[property])
               return false
             }
+            break;
           }
 
           case rulesEnum.CAN_BE_EMPTY: {
-            continue
+            break;
           }
 
           default: {
-
+            break;
           }
         }
       }
-    }
+      return true;
+    },
+    myDebounce: function (cb, delay) {
+      let timeout = null;
+      return function (...args) {
+        clearInterval(timeout)
+        timeout = setTimeout(() => {
+          console.log("args:", ...args)
+          cb.apply(this, args)
+        }, delay)
+      }
+    },
   }
 }
 </script>
@@ -98,11 +122,12 @@ input[error=true]:focus {
 .auth-input_error {
   display: flex;
   position: absolute;
-  right: -170px;
+  left: 350px;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: 200px;
   height: 40px;
+  bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 0 15px 0 gray;
   background-color: white;
