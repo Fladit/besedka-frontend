@@ -1,6 +1,7 @@
 <template>
   <div class="auth-input">
-    <input v-bind:value="value" @input="$emit('input', $event.target.value)" :error="!!errorMessage" v-bind:placeholder="placeholder">
+    <input v-bind:value="value" @input="$emit('input', $event.target.value)" :error="!!errorMessage"
+           v-bind:placeholder="placeholder">
     <div class="auth-input_error"  v-if="errorMessage">
       <div class="auth-input_error-message">{{errorMessage}}</div>
     </div>
@@ -8,18 +9,26 @@
 </template>
 
 <script>
-import {rulesEnum, rulesError} from "@/utils/errorRules";
+import {rulesEnum, rulesError} from "@/utils/inputRules";
 
 export default {
-  name: "BaseAuthInput",
+  name: "BaseAuthDebouncedInput",
   props: {
-    value: String,
-    placeholder: String,
-    minLength: Number,
-    maxLength: Number,
+    value: {
+      type: String,
+      required: true,
+    },
+    placeholder: {
+      type: String,
+      required: true,
+    },
     hasError: Boolean,
     validateInput: Function,
     rules: Object,
+    delay: {
+      type: Number,
+      default: 300,
+    },
   },
   data: function () {
     return {
@@ -27,16 +36,21 @@ export default {
       myDebouncedValidation: this.myDebounce(async (value) => {
         //console.log("deb", value)
         if (this.checkErrors(value)) {
+          if (this.hasOwnProperty["validateInput"]) {
+            this.errorMessage = await this.validateInput(value)
+          }
+          else {
+            if (this.errorMessage)
+              this.errorMessage = ""
+          }
           console.log("access")
-          this.errorMessage = await this.validateInput(value)
         }
-      }, 800)
+      }, this.delay)
     }
   },
   watch: {
     value: function (newValue) {
       console.log(newValue)
-      //this.debouncedValidation(newValue)
       this.myDebouncedValidation(newValue)
     },
     errorMessage: function (newValue, oldValue) {
@@ -48,7 +62,6 @@ export default {
   methods: {
     checkErrors: function (value) {
       for (const property in this.rules) {
-        console.log(property, this.rules[property])
         switch (property) {
           case rulesEnum.MIN_LENGTH: {
             if (value.length < this.rules[property]) {

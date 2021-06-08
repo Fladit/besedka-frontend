@@ -3,17 +3,18 @@
     <div>Авторизация</div>
     <BaseAuthInput v-model="username" :validateInput="validateUsername" :rules="usernameRules"
                    v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
-                   placeholder="Введите логин или email"/>
-    <BaseAuthInput v-model="password" placeholder="Введите пароль"/>
+                   v-bind:delay="800" placeholder="Введите логин или email"/>
+    <BaseAuthInput v-model="password" v-bind:rules="this.passwordRules"
+                   v-on:update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
+                   placeholder="Введите пароль"/>
     <button :disabled="isButtonDisabled" class="login_button" @click="login">Войти</button>
   </div>
 </template>
 
 <script>
-import BaseAuthInput from "@/components/BaseAuthInput";
-import {rulesEnum} from "@/utils/errorRules";
+import BaseAuthInput from "@/components/BaseAuthDebouncedInput";
+import {customRules} from "@/utils/inputRules";
 import {AuthValidation} from "@/utils/AuthValidation";
-import _ from "lodash";
 export default {
   name: "Login",
   components: {BaseAuthInput},
@@ -21,14 +22,13 @@ export default {
     return {
       errors: {
         hasUsernameError: false,
+        hasPasswordError: false
       },
       username: '',
       password: '',
       isButtonDisabled: false,
-      usernameRules: {
-        [rulesEnum.MIN_LENGTH]: 3,
-        [rulesEnum.MAX_LENGTH]: 15,
-      }
+      usernameRules: customRules.usernameRules,
+      passwordRules: customRules.passwordRules,
     }
   },
   methods: {
@@ -45,13 +45,13 @@ export default {
         for (const property in errors) {
           if (errors[property]) {
             if (!this.isButtonDisabled) {
-              this.isButtonDisabled = !this.isButtonDisabled
-              return ;
+              this.isButtonDisabled = true
             }
+            return ;
           }
         }
         if (this.isButtonDisabled)
-          this.isButtonDisabled = !this.isButtonDisabled
+          this.isButtonDisabled = false
       },
       deep: true,
     }

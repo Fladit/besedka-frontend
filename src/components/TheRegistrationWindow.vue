@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import BaseAuthInput from "@/components/BaseAuthInput";
+import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
 export default {
   name: "TheRegistrationWindow",
-  components: {BaseAuthInput},
+  components: {BaseAuthInput: BaseAuthDebouncedInput},
   data() {
     return {
       user: {

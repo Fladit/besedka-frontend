@@ -10,4 +10,16 @@ const rulesError = {
     [rulesEnum.CAN_BE_EMPTY]: () => "Поле не должно быть пустым",
 }
 
-export {rulesEnum, rulesError}
+const customRules = {
+    usernameRules: {
+        [rulesEnum.MIN_LENGTH]: 3,
+        [rulesEnum.MAX_LENGTH]: 16,
+    },
+    passwordRules: {
+        [rulesEnum.MIN_LENGTH]: 6,
+        [rulesEnum.MAX_LENGTH]: 64,
+    }
+}
+
+
+export {rulesEnum, rulesError, customRules}
