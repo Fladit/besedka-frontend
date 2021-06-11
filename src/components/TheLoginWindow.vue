@@ -14,9 +14,11 @@
 <script>
 import BaseAuthInput from "@/components/BaseAuthDebouncedInput";
 import {customRules} from "@/utils/inputRules";
-import {AuthValidation} from "@/utils/AuthValidation";
+import {AuthPropertyValidation} from "@/utils/Auth/AuthPropertyValidation";
+import {AuthLogic} from "@/utils/Auth/AuthLogic";
+
 export default {
-  name: "Login",
+  name: "TheLoginWindow",
   components: {BaseAuthInput},
   data: function () {
     return {
@@ -32,11 +34,10 @@ export default {
     }
   },
   methods: {
-    login: async function () {
-
-      console.log("Login", this.error)
+    login: function () {
+      AuthLogic.login({username: this.username, password: this.password})
     },
-    validateUsername: AuthValidation.validateUsername
+    validateUsername: AuthPropertyValidation.validateUsername
   },
   watch: {
     errors: {
