@@ -1,22 +1,13 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Login/>
-    <TheRegistrationWindow/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Login from "@/components/TheLoginWindow";
-import TheRegistrationWindow from "@/components/TheRegistrationWindow";
-
 export default {
   name: 'App',
-  components: {
-    TheRegistrationWindow,
-    Login
-  }
 }
 </script>
 
@@ -32,5 +23,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-color: beige;
+  width: 100vw;
+  height: 100vh;
 }
+
+
 </style>
