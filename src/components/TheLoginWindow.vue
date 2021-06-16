@@ -3,7 +3,7 @@
     <div>Авторизация</div>
     <BaseAuthInput v-model="username" :validateInput="validateUsername" :rules="usernameRules"
                    v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
-                   v-bind:delay="800" placeholder="Введите логин или email"/>
+                   v-bind:delay="500" placeholder="Введите логин или email"/>
     <BaseAuthInput v-model="password" v-bind:rules="this.passwordRules"
                    v-on:update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
                    placeholder="Введите пароль"/>
