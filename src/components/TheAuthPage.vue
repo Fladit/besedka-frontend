@@ -1,18 +1,21 @@
 <template>
   <div class="auth">
-    <TheNavbar/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import TheNavbar from "@/components/TheNavbar";
 export default {
-name: "TheAuthPage",
-  components: {TheNavbar}
+  name: "TheAuthPage",
 }
 </script>
 
 <style scoped>
-
+.auth {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

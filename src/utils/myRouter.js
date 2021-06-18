@@ -6,12 +6,16 @@ import NotFoundError from "@/components/NotFoundError";
 
 const routes = [
     {
+        path: "",
+        redirect: {name: "login"},
+    },
+    {
         path: "/auth",
         component: TheAuthPage,
         children: [
-            {path: "", redirect: {path: 'login'}},
-            {path: "registration", component: TheRegistrationWindow},
-            {path: "login", component: TheLoginWindow},
+            {path: "", redirect: {name: "login"}},
+            {path: "registration", name: "registration", component: TheRegistrationWindow},
+            {path: "login", name: "login", component: TheLoginWindow},
         ]
     },
     {

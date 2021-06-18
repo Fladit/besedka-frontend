@@ -1,13 +1,19 @@
 <template>
   <div class="login">
-    <div>Авторизация</div>
+    <div class="login__title">Авторизация</div>
     <BaseAuthInput v-model="username" :validateInput="validateUsername" :rules="usernameRules"
                    v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
-                   v-bind:delay="500" placeholder="Введите логин или email"/>
+                   v-bind:delay="500" placeholder="Введите логин или email..."/>
     <BaseAuthInput v-model="password" v-bind:rules="this.passwordRules"
                    v-on:update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
-                   placeholder="Введите пароль"/>
+                   placeholder="Введите пароль..."/>
     <button :disabled="isButtonDisabled" class="login_button" @click="login">Войти</button>
+    <router-link class="login__text-button" v-bind:to="{name: 'forgot'}">Забыли пароль?</router-link>
+    <div class="login-registration">
+      <div>Ещё не зарегистрированы?</div>
+      <router-link class="login__text-button" v-bind:to="{name: 'registration'}">Регистрация</router-link>
+    </div>
+
   </div>
 </template>
 
@@ -62,11 +68,18 @@ export default {
 
 <style scoped>
 .login {
+  width: fit-content;
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: 24px;
+  font-size: 20px;
+  padding: 20px 100px;
+  border: 1px solid black;
+  border-radius: 32px;
+  background-color: white;
+  box-shadow: 0 0 5px 1px;
 }
 
 .login_input {
@@ -78,9 +91,26 @@ export default {
   padding: 10px 15px;
 }
 
+.login__title {
+  font-size: 24px;
+}
+
 .login_button {
   width: 100px;
   height: 40px;
   margin-top: 20px;
+  margin-bottom: 15px;
+  background: white;
+  border-radius: 14px;
+}
+
+.login__text-button {
+  color: #0E26A3;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-registration {
+  margin-top: 15px;
 }
 </style>

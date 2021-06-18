@@ -107,10 +107,10 @@ export default {
 input {
   width: 300px;
   height: 60px;
-  border-radius: 15px;
   font-size: 20px;
   padding: 20px 10px;
   margin-top: 20px;
+  border: 1px solid black;
 }
 input[error=true] {
   border-color: red;
