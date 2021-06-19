@@ -7,16 +7,17 @@
     <BaseAuthInput v-model="user.email" placeholder="Введите email"/>
     <BaseAuthInput v-model="user.firstName" placeholder="Введите имя"/>
     <BaseAuthInput v-model="user.lastName" placeholder="Введите фамилию"/>
-    <BaseAuthInput v-model="user.birthDay"/>
+    <TheDatePicker v-model="user.birthDay"/>
     <button class="registration_button" :disabled="isButtonDisabled">Зарегистрироваться</button>
   </div>
 </template>
 
 <script>
 import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
+import TheDatePicker from "@/components/TheDatePicker";
 export default {
   name: "TheRegistrationWindow",
-  components: {BaseAuthInput: BaseAuthDebouncedInput},
+  components: {TheDatePicker, BaseAuthInput: BaseAuthDebouncedInput},
   data() {
     return {
       user: {

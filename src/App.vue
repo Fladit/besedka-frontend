@@ -25,6 +25,7 @@ export default {
   background-color: #A5E763;
   width: 100vw;
   height: 100vh;
+  position: relative;
 }
 
 
