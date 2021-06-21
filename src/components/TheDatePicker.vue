@@ -1,9 +1,9 @@
 <template>
   <div>
     <div>Дата рождения ({{resultDate}})</div>
-    <TheInputSelector v-model="day" v-bind:title="dayPickerOptions.title" v-bind:options="dayPickerOptions.options"/>
-    <TheInputSelector v-model="month" v-bind:title="monthPickerOptions.title" v-bind:options="monthPickerOptions.options"/>
-    <TheInputSelector v-model="year" v-bind:title="yearPickerOptions.title" v-bind:options="yearPickerOptions.options"/>
+    <TheInputSelector v-model="birthDate.day" v-bind:title="dayPickerOptions.title" v-bind:options="dayPickerOptions.options"/>
+    <TheInputSelector v-model="birthDate.month" v-bind:title="monthPickerOptions.title" v-bind:options="monthPickerOptions.options"/>
+    <TheInputSelector v-model="birthDate.year" v-bind:title="yearPickerOptions.title" v-bind:options="yearPickerOptions.options"/>
   </div>
 </template>
 
@@ -19,9 +19,11 @@ export default {
   },
   data: function () {
     return {
-      day: "",
-      month: "",
-      year: "",
+      birthDate: {
+        day: "",
+        month: "",
+        year: "",
+      },
       dayPickerOptions: dayPickerOptions,
       monthPickerOptions: monthPickerOptions,
       yearPickerOptions: yearPickerOptions,
@@ -29,9 +31,21 @@ export default {
   },
   computed: {
     resultDate: function () {
-      // ПЕРЕДЕЛАТЬ ФУНКЦИЮ !!!!!
-      return `${this.day}/${this.month}/${this.year}`
+      return `${this.birthDate.day}/${this.birthDate.month}/${this.birthDate.year}`
     }
+  },
+  watch: {
+    birthDate: {
+      handler: function (val) {
+        const {day, month, year} = val
+        let returnedBirthDay = undefined
+        if (day && month && year)
+          returnedBirthDay = new Date(year, month, day).toString()
+        console.log(returnedBirthDay)
+        this.$emit('input', returnedBirthDay)
+      },
+      deep: true,
+    },
   }
 }
 </script>

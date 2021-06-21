@@ -40,6 +40,14 @@ export default {
       }
       return this.user.password !== this.passwordRetry;
     }
+  },
+  watch: {
+    "user.birthDay": {
+      handler: function (val) {
+        console.log(val)
+      },
+      deep: true,
+    }
   }
 }
 </script>

@@ -1,8 +1,12 @@
 let minYear = 1900;
 let currentYear = 2021;
-const dayOptions = fillArray(1, 31)
-const monthOptions = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-const yearOptions = fillArray(minYear, currentYear)
+const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const dayOptions = fillOptionsArray(1, 31)
+const monthOptions = []
+months.forEach((value, index) => {
+    monthOptions.push({title: value, value: index})
+})
+const yearOptions = fillOptionsArray(minYear, currentYear)
 
 const dayPickerOptions = {
     title: "День",
@@ -17,6 +21,7 @@ const yearPickerOptions = {
     options: yearOptions,
 }
 
+console.log(dayOptions, monthOptions, yearOptions)
 
 
 
@@ -27,10 +32,11 @@ const yearPickerOptions = {
 
 
 
-function fillArray (from, to) {
+function fillOptionsArray (from, to) {
     const array = [];
     for (let i=from; i<=to; i++) {
-        array.push((i).toString())
+        const obj = {title: i.toString(), value: i.toString()}
+        array.push(obj)
     }
     return array
 }
