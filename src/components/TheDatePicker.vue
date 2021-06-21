@@ -41,7 +41,6 @@ export default {
         let returnedBirthDay = undefined
         if (day && month && year)
           returnedBirthDay = new Date(year, month, day).toString()
-        console.log(returnedBirthDay)
         this.$emit('input', returnedBirthDay)
       },
       deep: true,
