@@ -9,7 +9,7 @@
 
 <script>
 import TheInputSelector from "@/components/TheInputSelector";
-import {dayPickerOptions, monthPickerOptions, yearPickerOptions} from "@/utils/DatePickerLogic";
+import {dayPickerOptions, monthPickerOptions, yearPickerOptions, monthsEnum} from "@/utils/DatePickerLogic";
 
 export default {
   name: "TheDatePicker",
@@ -27,6 +27,7 @@ export default {
       dayPickerOptions: dayPickerOptions,
       monthPickerOptions: monthPickerOptions,
       yearPickerOptions: yearPickerOptions,
+      days: []
     }
   },
   computed: {
