@@ -61,6 +61,11 @@ export default {
       },
       deep: true,
     },
+    dayPickerComputedOptions: function (val) {
+      if (parseInt(this.birthDate.day) > val.length) {
+        this.birthDate.day = ""
+      }
+    }
   }
 }
 </script>
