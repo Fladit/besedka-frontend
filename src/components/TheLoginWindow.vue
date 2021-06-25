@@ -102,6 +102,7 @@ export default {
   margin-bottom: 15px;
   background: white;
   border-radius: 14px;
+  font-size: 20px;
 }
 
 .login__text-button {

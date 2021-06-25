@@ -58,6 +58,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 1px solid black;
+  background-color: white;
+  padding: 10px 100px;
+  border-radius: 64px;
+  box-shadow: 0 0 5px 1px;
 }
 
 .registration_label {

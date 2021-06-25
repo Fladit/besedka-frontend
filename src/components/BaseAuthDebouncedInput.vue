@@ -103,10 +103,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@import "public/variables";
 input {
-  width: 300px;
-  height: 60px;
+  width: @baseAuthInputWidth;
+  height: 55px;
   font-size: 20px;
   padding: 20px 10px;
   margin-top: 20px;

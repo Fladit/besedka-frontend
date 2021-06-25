@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <div>Дата рождения ({{resultDate}})</div>
-    <TheInputSelector v-model="birthDate.day" v-bind:title="dayPickerOptions.title" v-bind:options="dayPickerComputedOptions"/>
-    <TheInputSelector v-model="birthDate.month" v-bind:title="monthPickerOptions.title" v-bind:options="monthPickerOptions.options"/>
-    <TheInputSelector v-model="birthDate.year" v-bind:title="yearPickerOptions.title" v-bind:options="yearPickerOptions.options"/>
+  <div class="date-picker">
+    <div class="date-picker__birthday-label">Дата рождения ({{resultDate}})</div>
+    <div class="date-picker-selectors">
+      <TheInputSelector v-model="birthDate.day" v-bind:title="dayPickerOptions.title" v-bind:options="dayPickerComputedOptions"/>
+      <TheInputSelector v-model="birthDate.month" v-bind:title="monthPickerOptions.title" v-bind:options="monthPickerOptions.options"/>
+      <TheInputSelector v-model="birthDate.year" v-bind:title="yearPickerOptions.title" v-bind:options="yearPickerOptions.options"/>
+    </div>
   </div>
 </template>
 
@@ -70,6 +72,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@import "public/variables";
 
+.date-picker {
+  width: @baseAuthInputWidth;
+}
+
+.date-picker__birthday-label {
+  width: fit-content;
+  color: gray;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.date-picker-selectors {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 </style>
