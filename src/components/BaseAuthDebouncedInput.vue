@@ -1,7 +1,7 @@
 <template>
   <div class="auth-input">
     <input v-bind:value="value" @input="$emit('input', $event.target.value)" :error="!!errorMessage"
-           v-bind:placeholder="placeholder">
+           v-bind:placeholder="placeholder" v-bind:type="type" v-bind:id="id">
     <div class="auth-input_error"  v-if="errorMessage">
       <div class="auth-input_error-message">{{errorMessage}}</div>
     </div>
@@ -29,6 +29,8 @@ export default {
       type: Number,
       default: 300,
     },
+    type: String,
+    id: String
   },
   data: function () {
     return {

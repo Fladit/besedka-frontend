@@ -4,9 +4,9 @@
     <BaseAuthInput v-model="user.username" placeholder="Введите имя аккаунта"/>
     <BaseAuthInput v-model="user.password" placeholder="Введите пароль"/>
     <BaseAuthInput v-model="passwordRetry" placeholder="Введите пароль повторно"/>
-    <BaseAuthInput v-model="user.email" placeholder="Введите email"/>
-    <BaseAuthInput v-model="user.firstName" placeholder="Введите имя"/>
-    <BaseAuthInput v-model="user.lastName" placeholder="Введите фамилию"/>
+    <BaseAuthInput v-model="user.email" placeholder="Введите email" type="email" id="email"/>
+    <BaseAuthInput v-model="user.firstName" placeholder="Введите имя" id="name"/>
+    <BaseAuthInput v-model="user.lastName" placeholder="Введите фамилию" id="lastname"/>
     <TheDatePicker v-model="user.birthDay"/>
     <button class="registration_button" :disabled="isButtonDisabled">Зарегистрироваться</button>
   </div>
@@ -60,7 +60,7 @@ export default {
   align-items: center;
   border: 1px solid black;
   background-color: white;
-  padding: 10px 100px;
+  padding: 10px 100px 20px;
   border-radius: 64px;
   box-shadow: 0 0 5px 1px;
 }
