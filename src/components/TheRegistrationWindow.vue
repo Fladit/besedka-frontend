@@ -1,6 +1,11 @@
 <template>
   <div class="registration">
-    <div class="registration_label">Регистрация</div>
+    <div>
+      <div class="registration_label">
+        Регистрация
+        <router-link class="registration_back-button" v-bind:to="{name: 'login'}"/>
+      </div>
+    </div>
     <BaseAuthInput v-model="user.username" placeholder="Введите имя аккаунта"/>
     <BaseAuthInput v-model="user.password" placeholder="Введите пароль"/>
     <BaseAuthInput v-model="passwordRetry" placeholder="Введите пароль повторно"/>
@@ -52,15 +57,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+@registrationPaddingTop: 10px;
+
 .registration {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
   background-color: white;
-  padding: 10px 100px 20px;
+  padding: @registrationPaddingTop 100px 20px;
   border-radius: 64px;
   box-shadow: 0 0 5px 1px;
 }
@@ -86,4 +95,27 @@ export default {
   background-color: white;
   font-size: 20px;
 }
+
+@backButtonHeight: 15px;
+@backButtonWidth: 30px;
+@backButtonArrowHeight: @backButtonHeight * 2;
+.registration_back-button {
+  left: @backButtonWidth * 2;
+  top: @backButtonHeight;
+  position: absolute;
+  width: @backButtonWidth;
+  height: @backButtonHeight;
+  background-color: #A5E763;
+}
+.registration_back-button::before {
+  content: "";
+  position: absolute;
+  top: ((@backButtonArrowHeight - @backButtonHeight) / -2);
+  left: (@backButtonArrowHeight / -2);
+  border-top: (@backButtonArrowHeight / 2) solid transparent;
+  border-bottom: (@backButtonArrowHeight / 2) solid transparent;
+  border-right: (@backButtonArrowHeight / 2) solid #A5E763;
+  z-index: 999;
+}
+
 </style>
