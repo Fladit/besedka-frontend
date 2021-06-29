@@ -18,6 +18,10 @@ const customRules = {
     passwordRules: {
         [rulesEnum.MIN_LENGTH]: 6,
         [rulesEnum.MAX_LENGTH]: 64,
+    },
+    nameRules: {
+        [rulesEnum.MIN_LENGTH]: 2,
+        [rulesEnum.MAX_LENGTH]: 32,
     }
 }
 

@@ -13,7 +13,7 @@ const months = {
     DECEMBER: "DECEMBER",
 }
 
-//FEBRUARY - days in year - 28, but every 4th year - 29
+//FEBRUARY - days in year: 28, but every 4th year: 29
 const monthsEnum = {
     [months.JANUARY]: {title: 'Январь', index: 0, maxDays: 31},
     [months.FEBRUARY]: {title: 'Февраль', index: 1, maxDays: 28},

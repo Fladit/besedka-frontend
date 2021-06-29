@@ -13,4 +13,10 @@ export class AuthPropertyValidation {
             return ""
         return "Пароли не совпадают"
     }
+    static validateEmail(email) {
+        const emailRegularExpression = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+        if (email.match(emailRegularExpression))
+            return ""
+        return "Введён некорректный email"
+    }
 }

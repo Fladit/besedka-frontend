@@ -30,7 +30,8 @@ export default {
       default: 300,
     },
     type: String,
-    id: String
+    id: String,
+    trackedValue: String,
   },
   data: function () {
     return {
@@ -58,6 +59,11 @@ export default {
     errorMessage: function (newValue, oldValue) {
       if (!newValue && oldValue || newValue && !oldValue) {
         this.$emit("update:hasError")
+      }
+    },
+    trackedValue: async function (val) {
+      if (this.validateInput) {
+        this.errorMessage = await this.validateInput(this.value)
       }
     }
   },

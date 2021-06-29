@@ -13,11 +13,17 @@
     <BaseAuthDebouncedInput v-model="user.password" :rules="rules.password"
                             @update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
                             placeholder="Введите пароль"/>
-    <BaseAuthDebouncedInput v-model="passwordRetry" :validateInput="validatePasswordRetry"
+    <BaseAuthDebouncedInput v-model="passwordRetry" :tracked-value="user.password"
+                            :validateInput="validatePasswordRetry"
+                            @update:has-error="errors.hasRetryPasswordError = !errors.hasRetryPasswordError"
                             placeholder="Введите пароль повторно"/>
-    <BaseAuthDebouncedInput v-model="user.email" placeholder="Введите email" type="email" id="email"/>
-    <BaseAuthDebouncedInput v-model="user.firstName" placeholder="Введите имя" id="name"/>
-    <BaseAuthDebouncedInput v-model="user.lastName" placeholder="Введите фамилию" id="lastname"/>
+    <BaseAuthDebouncedInput v-model="user.email" :validate-input="validateEmail"
+                            @update:has-error="errors.hasEmailError = !errors.hasEmailError"
+                            placeholder="Введите email" type="email" id="email"/>
+    <BaseAuthDebouncedInput v-model="user.firstName" :rules="rules.name"
+                            placeholder="Введите имя" id="name"/>
+    <BaseAuthDebouncedInput v-model="user.lastName" :rules="rules.name"
+                            placeholder="Введите фамилию" id="lastname"/>
     <TheDatePicker v-model="user.birthDay"/>
     <button class="registration_button" :disabled="isButtonDisabled">Зарегистрироваться</button>
   </div>
@@ -48,11 +54,13 @@ export default {
         hasEmailError: false,
         hasFirstNameError: false,
         hasLastNameError: false,
-        hasBirthDayError: false
+        hasBirthDayError: false,
+        hasRetryPasswordError: false,
       },
       rules: {
         username: customRules.usernameRules,
         password: customRules.passwordRules,
+        name: customRules.nameRules
       }
     }
   },
@@ -70,7 +78,8 @@ export default {
     validateUsername: AuthPropertyValidation.validateUsername,
     validatePasswordRetry: function (passwordRetry) {
       return AuthPropertyValidation.validatePasswordRetry(this.user.password, passwordRetry)
-    }
+    },
+    validateEmail: AuthPropertyValidation.validateEmail,
 
   },
   watch: {
@@ -95,7 +104,7 @@ export default {
           this.isButtonDisabled = false
       },
       deep: true,
-    }
+    },
   }
 }
 </script>
