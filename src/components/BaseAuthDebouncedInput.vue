@@ -38,7 +38,7 @@ export default {
       myDebouncedValidation: this.myDebounce(async (value) => {
         //console.log("deb", value)
         if (this.checkErrors(value)) {
-          if (this.hasOwnProperty["validateInput"]) {
+          if (this.validateInput) {
             this.errorMessage = await this.validateInput(value)
           }
           else {

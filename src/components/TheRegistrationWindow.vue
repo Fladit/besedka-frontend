@@ -6,12 +6,18 @@
         <router-link class="registration_back-button" v-bind:to="{name: 'login'}"/>
       </div>
     </div>
-    <BaseAuthInput v-model="user.username" placeholder="Введите имя аккаунта"/>
-    <BaseAuthInput v-model="user.password" placeholder="Введите пароль"/>
-    <BaseAuthInput v-model="passwordRetry" placeholder="Введите пароль повторно"/>
-    <BaseAuthInput v-model="user.email" placeholder="Введите email" type="email" id="email"/>
-    <BaseAuthInput v-model="user.firstName" placeholder="Введите имя" id="name"/>
-    <BaseAuthInput v-model="user.lastName" placeholder="Введите фамилию" id="lastname"/>
+    <BaseAuthDebouncedInput v-model="user.username" :validate-input="validateUsername"
+                            @update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
+                            :rules="rules.username"  :delay="500"
+                            placeholder="Введите имя аккаунта"/>
+    <BaseAuthDebouncedInput v-model="user.password" :rules="rules.password"
+                            @update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
+                            placeholder="Введите пароль"/>
+    <BaseAuthDebouncedInput v-model="passwordRetry" :validateInput="validatePasswordRetry"
+                            placeholder="Введите пароль повторно"/>
+    <BaseAuthDebouncedInput v-model="user.email" placeholder="Введите email" type="email" id="email"/>
+    <BaseAuthDebouncedInput v-model="user.firstName" placeholder="Введите имя" id="name"/>
+    <BaseAuthDebouncedInput v-model="user.lastName" placeholder="Введите фамилию" id="lastname"/>
     <TheDatePicker v-model="user.birthDay"/>
     <button class="registration_button" :disabled="isButtonDisabled">Зарегистрироваться</button>
   </div>
@@ -20,9 +26,11 @@
 <script>
 import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
 import TheDatePicker from "@/components/TheDatePicker";
+import {AuthPropertyValidation} from "@/utils/Auth/AuthPropertyValidation";
+import {customRules} from "@/utils/inputRules";
 export default {
   name: "TheRegistrationWindow",
-  components: {TheDatePicker, BaseAuthInput: BaseAuthDebouncedInput},
+  components: {TheDatePicker, BaseAuthDebouncedInput},
   data() {
     return {
       user: {
@@ -33,7 +41,19 @@ export default {
         lastName: '',
         birthDay: '',
       },
-      passwordRetry: ''
+      passwordRetry: '',
+      errors: {
+        hasUsernameError: false,
+        hasPasswordError: false,
+        hasEmailError: false,
+        hasFirstNameError: false,
+        hasLastNameError: false,
+        hasBirthDayError: false
+      },
+      rules: {
+        username: customRules.usernameRules,
+        password: customRules.passwordRules,
+      }
     }
   },
   computed: {
@@ -44,12 +64,35 @@ export default {
           return true;
       }
       return this.user.password !== this.passwordRetry;
+    },
+  },
+  methods: {
+    validateUsername: AuthPropertyValidation.validateUsername,
+    validatePasswordRetry: function (passwordRetry) {
+      return AuthPropertyValidation.validatePasswordRetry(this.user.password, passwordRetry)
     }
+
   },
   watch: {
     "user.birthDay": {
       handler: function (val) {
         console.log(val)
+      },
+      deep: true,
+    },
+    errors: {
+      handler: function (errors) {
+        //console.log("change")
+        for (const property in errors) {
+          if (errors[property]) {
+            if (!this.isButtonDisabled) {
+              this.isButtonDisabled = true
+            }
+            return ;
+          }
+        }
+        if (this.isButtonDisabled)
+          this.isButtonDisabled = false
       },
       deep: true,
     }

@@ -1,12 +1,12 @@
 <template>
   <div class="login">
     <div class="login__title">Авторизация</div>
-    <BaseAuthInput v-model="username" :validateInput="validateUsername" :rules="usernameRules"
-                   v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
-                   v-bind:delay="500" placeholder="Введите логин или email..."/>
-    <BaseAuthInput v-model="password" v-bind:rules="this.passwordRules"
-                   v-on:update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
-                   placeholder="Введите пароль..."/>
+    <BaseAuthDebouncedInput v-model="username" :rules="rules.username"
+                            v-on:update:hasError="errors.hasUsernameError = !errors.hasUsernameError"
+                            placeholder="Введите логин или email..."/>
+    <BaseAuthDebouncedInput v-model="password" v-bind:rules="rules.password"
+                            v-on:update:hasError="errors.hasPasswordError = !errors.hasPasswordError"
+                            placeholder="Введите пароль..."/>
     <button :disabled="isButtonDisabled" class="login_button" @click="login">Войти</button>
     <router-link class="login__text-button" v-bind:to="{name: 'forgot'}">Забыли пароль?</router-link>
     <div class="login-registration">
@@ -18,14 +18,13 @@
 </template>
 
 <script>
-import BaseAuthInput from "@/components/BaseAuthDebouncedInput";
+import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
 import {customRules} from "@/utils/inputRules";
-import {AuthPropertyValidation} from "@/utils/Auth/AuthPropertyValidation";
 import {AuthLogic} from "@/utils/Auth/AuthLogic";
 
 export default {
   name: "TheLoginWindow",
-  components: {BaseAuthInput},
+  components: {BaseAuthDebouncedInput},
   data: function () {
     return {
       errors: {
@@ -35,15 +34,16 @@ export default {
       username: '',
       password: '',
       isButtonDisabled: false,
-      usernameRules: customRules.usernameRules,
-      passwordRules: customRules.passwordRules,
+      rules: {
+        username: customRules.usernameRules,
+        password: customRules.passwordRules,
+      }
     }
   },
   methods: {
     login: function () {
       AuthLogic.login({username: this.username, password: this.password})
     },
-    validateUsername: AuthPropertyValidation.validateUsername
   },
   watch: {
     errors: {

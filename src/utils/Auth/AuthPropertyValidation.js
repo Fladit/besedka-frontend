@@ -8,4 +8,9 @@ export class AuthPropertyValidation {
         }
         else return "Данное имя уже занято"
     }
+    static validatePasswordRetry(password, passwordRetry) {
+        if (password === passwordRetry)
+            return ""
+        return "Пароли не совпадают"
+    }
 }
