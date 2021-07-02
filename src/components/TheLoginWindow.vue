@@ -103,6 +103,7 @@ export default {
   background: white;
   border-radius: 14px;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .login__text-button {

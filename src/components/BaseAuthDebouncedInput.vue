@@ -32,6 +32,7 @@ export default {
     type: String,
     id: String,
     trackedValue: String,
+    errorSearcher: Number,
   },
   data: function () {
     return {
@@ -65,11 +66,17 @@ export default {
       if (this.validateInput) {
         this.errorMessage = await this.validateInput(this.value)
       }
+    },
+    errorSearcher: function (val) {
+      if (!this.errorMessage) {
+        this.checkErrors(this.value)
+      }
     }
   },
   methods: {
     checkErrors: function (value) {
       for (const property in this.rules) {
+        console.log(property)
         switch (property) {
           case rulesEnum.MIN_LENGTH: {
             if (value.length < this.rules[property]) {
@@ -81,12 +88,16 @@ export default {
           case rulesEnum.MAX_LENGTH: {
             if (!(value.length < this.rules[property])) {
               this.errorMessage = rulesError[property](this.rules[property])
-              return false
+              return false;
             }
             break;
           }
 
           case rulesEnum.CAN_BE_EMPTY: {
+            if (((value === "" || value === undefined) && !this.rules[property])) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false;
+            }
             break;
           }
 
