@@ -30,7 +30,7 @@
     <BaseAuthDebouncedInput v-model="user.lastName" :rules="rules.name"
                             :errorSearcher="errorSearcher"
                             placeholder="Введите фамилию" id="lastname"/>
-    <TheDatePicker v-model="user.birthDay"/>
+    <TheDatePicker v-model="user.birthDay" :errorSearcher="errorSearcher" :rules="rules.noEmptyRule"/>
     <button class="registration_button" @click="register">Зарегистрироваться</button>
   </div>
 </template>

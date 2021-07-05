@@ -6,6 +6,9 @@
       <TheInputSelector v-model="birthDate.month" v-bind:title="monthPickerOptions.title" v-bind:options="monthPickerOptions.options"/>
       <TheInputSelector v-model="birthDate.year" v-bind:title="yearPickerOptions.title" v-bind:options="yearPickerOptions.options"/>
     </div>
+    <div style="position: relative; bottom: -15px">
+      <BaseAuthInputErrorWindow :error-message="errorMessage"/>
+    </div>
   </div>
 </template>
 
@@ -13,12 +16,16 @@
 import TheInputSelector from "@/components/TheInputSelector";
 import {dayPickerOptions, monthPickerOptions, yearPickerOptions} from "@/utils/DatePickerLogic";
 import {months, monthsEnum} from "@/utils/monthsEnums";
+import BaseAuthInputErrorWindow from "@/components/BaseAuthInputErrorWindow";
+import {rulesEnum, rulesError} from "@/utils/inputRules";
 
 export default {
   name: "TheDatePicker",
-  components: {TheInputSelector},
+  components: {BaseAuthInputErrorWindow, TheInputSelector},
   props: {
     value: String,
+    rules: Object,
+    errorSearcher: Number,
   },
   data: function () {
     return {
@@ -30,7 +37,8 @@ export default {
       dayPickerOptions: dayPickerOptions,
       monthPickerOptions: monthPickerOptions,
       yearPickerOptions: yearPickerOptions,
-      days: []
+      days: [],
+      errorMessage: "",
     }
   },
   computed: {
@@ -67,7 +75,53 @@ export default {
       if (parseInt(this.birthDate.day) > val.length) {
         this.birthDate.day = ""
       }
+    },
+    errorSearcher: function (val) {
+      if (!this.errorMessage) {
+        this.checkErrors(this.value)
+      }
+    },
+    value: function (newValue) {
+      if (this.checkErrors(newValue) && this.errorMessage) {
+        this.errorMessage = ""
+      }
     }
+  },
+  methods: {
+    checkErrors: function (value) {
+      for (const property in this.rules) {
+        console.log(property)
+        switch (property) {
+          case rulesEnum.MIN_LENGTH: {
+            if (value.length < this.rules[property]) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false;
+            }
+            break;
+          }
+          case rulesEnum.MAX_LENGTH: {
+            if (!(value.length < this.rules[property])) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false;
+            }
+            break;
+          }
+
+          case rulesEnum.CAN_BE_EMPTY: {
+            if (((value === "" || value === undefined) && !this.rules[property])) {
+              this.errorMessage = rulesError[property](this.rules[property])
+              return false;
+            }
+            break;
+          }
+
+          default: {
+            break;
+          }
+        }
+      }
+      return true;
+    },
   }
 }
 </script>
@@ -76,6 +130,7 @@ export default {
 @import "public/variables";
 
 .date-picker {
+  position: relative;
   width: @baseAuthInputWidth;
 }
 
