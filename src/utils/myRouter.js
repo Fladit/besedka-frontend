@@ -3,6 +3,8 @@ import TheLoginWindow from "@/components/TheLoginWindow";
 import VueRouter from "vue-router";
 import TheAuthPage from "@/components/TheAuthPage";
 import NotFoundError from "@/components/NotFoundError";
+import TheUserPage from "@/components/TheUserPage";
+import TheUserFriendsPage from "@/components/TheUserFriendsPage";
 
 const routes = [
     {
@@ -19,9 +21,17 @@ const routes = [
         ]
     },
     {
+        path: ":id",
+        component: TheUserPage,
+        children: [
+            {path: "", component: TheUserPage},
+            {path: "friends", name: "user-friends", component: TheUserFriendsPage}
+        ],
+    },
+    {
         path: "*",
         component: NotFoundError,
-    }
+    },
 ]
 
 const myRouter = new VueRouter({
