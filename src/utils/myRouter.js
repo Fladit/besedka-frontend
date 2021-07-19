@@ -5,10 +5,12 @@ import TheAuthPage from "@/components/TheAuthPage";
 import NotFoundError from "@/components/NotFoundError";
 import TheUserPage from "@/components/TheUserPage";
 import TheUserFriendsPage from "@/components/TheUserFriendsPage";
+import TheUser from "@/components/TheUser";
 
 const routes = [
     {
         path: "",
+        name: '',
         redirect: {name: "login"},
     },
     {
@@ -21,8 +23,8 @@ const routes = [
         ]
     },
     {
-        path: ":id",
-        component: TheUserPage,
+        path: "/:id",
+        component: TheUser,
         children: [
             {path: "", component: TheUserPage},
             {path: "friends", name: "user-friends", component: TheUserFriendsPage}
