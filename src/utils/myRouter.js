@@ -27,7 +27,7 @@ const routes = [
         component: TheUser,
         children: [
             {path: "", component: TheUserPage},
-            {path: "friends", name: "user-friends", component: TheUserFriendsPage}
+            {path: "friends", component: TheUserFriendsPage}
         ],
     },
     {

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <TheNavbar/>
+    <TheNavbarVuetify/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import TheNavbar from "@/components/TheNavbar";
+import TheNavbarVuetify from "@/components/TheNavbarVuetify";
 export default {
 name: "TheUser",
-  components: {TheNavbar}
+  components: {TheNavbarVuetify}
 }
 </script>
 <style scoped>
