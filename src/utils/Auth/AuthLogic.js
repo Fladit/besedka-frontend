@@ -8,7 +8,7 @@ export class AuthLogic {
             return response.data
         }
         catch (e) {
-            alert(e.response.data.message)
+            throw e
         }
     }
 
@@ -19,7 +19,7 @@ export class AuthLogic {
             return response.data
         }
         catch (e) {
-            alert(e.message)
+            throw e
         }
     }
 

@@ -41,8 +41,16 @@ export default {
     }
   },
   methods: {
-    login: function () {
-      AuthLogic.login({username: this.username, password: this.password})
+    login: async function () {
+      try {
+        const user = await AuthLogic.login({username: this.username, password: this.password})
+        // Добавить логику сохранения данных пользователя в state manager
+
+        await this.$router.push({path: ''})
+      }
+      catch (e) {
+        alert(e.response.data.message)
+      }
     },
   },
   watch: {

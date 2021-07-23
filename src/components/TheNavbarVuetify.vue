@@ -1,9 +1,10 @@
 <template>
-  <div>
     <v-app-bar
         color="deep-purple accent-4"
         dense
         dark
+        :fixed="true"
+        :height="'50px'"
     >
       <v-container>
         <v-row class="d-flex justify-space-around">
@@ -30,7 +31,6 @@
 
 
     </v-app-bar>
-  </div>
 </template>
 
 <script>
