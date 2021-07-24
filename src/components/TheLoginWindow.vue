@@ -21,6 +21,7 @@
 import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
 import {customRules} from "@/utils/inputRules";
 import {AuthLogic} from "@/utils/Auth/AuthLogic";
+import {mapMutations} from "vuex";
 
 export default {
   name: "TheLoginWindow",
@@ -41,12 +42,16 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setUser',
+    ]),
     login: async function () {
       try {
         const user = await AuthLogic.login({username: this.username, password: this.password})
         // Добавить логику сохранения данных пользователя в state manager
-
-        await this.$router.push({path: ''})
+        console.log(user)
+        this.setUser(user)
+        await this.$router.push({path: `/${user.username}`})
       }
       catch (e) {
         alert(e.response.data.message)

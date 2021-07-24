@@ -13,7 +13,7 @@
         </v-btn>
       </v-col>
       <v-col cols="8" class="pa-0">
-        <span>{{user.username}}</span>
+        <span>{{`${user.firstName} ${user.lastName}`}}</span>
       </v-col>
     </v-row>
     <v-row class="flex-column justify-start ma-0" style="flex-grow: 4">
@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import mapState from "vuex/dist/vuex.mjs";
 
 export default {
   name: "TheUserPage",
@@ -34,7 +33,7 @@ export default {
     user() {
       return this.$store.state.user
     },
-  }
+  },
 }
 </script>
 

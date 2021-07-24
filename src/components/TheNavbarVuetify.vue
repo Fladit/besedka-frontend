@@ -23,7 +23,7 @@
             <v-icon size="36px">feed</v-icon>
           </v-btn>
 
-          <v-btn icon @click="$router.push({path: '/news'})" class="d-flex flex-column">
+          <v-btn icon @click="logout" class="d-flex flex-column">
             <v-icon size="36px">logout</v-icon>
           </v-btn>
         </v-row>
@@ -34,11 +34,24 @@
 </template>
 
 <script>
+import {AuthLogic} from "@/utils/Auth/AuthLogic";
+import {mapMutations} from "vuex";
+
 export default {
   name: "TheNavbarVuetify",
   data: function () {
     return {
       id: 'zhekster777',
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'setUser'
+    ]),
+    logout() {
+      AuthLogic.logout()
+      this.setUser({})
+      this.$router.push({name: "login"})
     }
   }
 }

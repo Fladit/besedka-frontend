@@ -47,14 +47,14 @@ export default {
             if (this.errorMessage)
               this.errorMessage = ""
           }
-          console.log("access")
+          //console.log("access")
         }
       }, this.delay)
     }
   },
   watch: {
     value: function (newValue) {
-      console.log(newValue)
+      //console.log(newValue)
       this.myDebouncedValidation(newValue)
     },
     errorMessage: function (newValue, oldValue) {
@@ -112,7 +112,7 @@ export default {
       return function (...args) {
         clearInterval(timeout)
         timeout = setTimeout(() => {
-          console.log("args:", ...args)
+          //console.log("args:", ...args)
           cb.apply(this, args)
         }, delay)
       }

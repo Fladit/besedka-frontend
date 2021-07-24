@@ -1,11 +1,13 @@
 import {configuredAxios, pathEnum} from "@/utils/configuredAxios";
+import jwtDecode from "jwt-decode";
 
 export class AuthLogic {
     static async login(payload) {
         try {
             const response = await configuredAxios.post(pathEnum.auth.login, payload)
-            console.log(response.data)
-            return response.data
+            localStorage.setItem("token", response.data.accessToken)
+            localStorage.setItem("refresh", response.data.refreshToken)
+            return jwtDecode(response.data.accessToken)
         }
         catch (e) {
             throw e
@@ -31,5 +33,10 @@ export class AuthLogic {
         catch (e) {
             alert(e.message)
         }
+    }
+
+    static logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refresh")
     }
 }
