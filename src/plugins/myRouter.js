@@ -6,12 +6,17 @@ import NotFoundError from "@/components/NotFoundError";
 import TheUserPage from "@/components/TheUserPage";
 import TheUserFriendsPage from "@/components/TheUserFriendsPage";
 import TheUser from "@/components/TheUser";
+import store from "@/plugins/Store/store";
+
+const {username} = store.state.user
 
 const routes = [
     {
         path: "",
-        name: '',
-        redirect: {name: "login"},
+        beforeEnter: function (to, from, next) {
+          if (to.path === "" && username) next({path: `/${username}`})
+          else next({name: "login"})
+        },
     },
     {
         path: "/auth",

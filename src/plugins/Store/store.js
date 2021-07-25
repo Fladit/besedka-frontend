@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex"
+import {AuthService} from "@/utils/Auth/AuthService";
+import jwtDecode from "jwt-decode";
+import myRouter from "@/plugins/myRouter";
 
 Vue.use(Vuex)
 
@@ -18,7 +21,6 @@ const store = new Vuex.Store({
         isAuth: (state => !!state.user.username),
     },
     mutations: {
-
         setUser(state, user) {
             state.user = user
         },
@@ -44,6 +46,37 @@ const store = new Vuex.Store({
 
         setStatus(state, status) {
             state.user.status = status
+        }
+    },
+    actions: {
+        async login(context, payload) {
+            try {
+                const response = await AuthService.login(payload)
+                localStorage.setItem("token", response.data.accessToken)
+                localStorage.setItem("refresh", response.data.refreshToken)
+                const user = jwtDecode(response.data.accessToken)
+                context.commit('setUser', user)
+                await myRouter.push({path: `/${user.username}`})
+            }
+            catch (e) {
+                throw e
+            }
+        },
+        async registration(context, payload) {
+            try {
+                const response = await AuthService.registration(payload)
+            }
+            catch (e) {
+
+            }
+        },
+        async authentication(context) {
+            try {
+                const response = await AuthService.authentication()
+            }
+            catch (e) {
+
+            }
         }
 
     }
