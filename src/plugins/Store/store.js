@@ -71,13 +71,24 @@ const store = new Vuex.Store({
             }
         },
         async authentication(context) {
-            try {
-                const response = await AuthService.authentication()
+            const token = localStorage.getItem('token')
+            if (token) {
+                try {
+                    const response = await AuthService.authentication(token)
+                    const user = jwtDecode(token)
+                    context.commit('setUser', user)
+                }
+                catch (e) {
+                    await context.dispatch('logout')
+                }
             }
-            catch (e) {
-
-            }
-        }
+        },
+        async logout(context) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("refresh")
+            context.commit('setUser', {})
+            await myRouter.push({name: 'login'})
+        },
 
     }
 })
