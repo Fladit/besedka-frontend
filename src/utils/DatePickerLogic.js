@@ -24,12 +24,6 @@ const yearPickerOptions = {
 
 
 
-
-
-
-
-
-
 function fillOptionsArray (from, to) {
     const array = [];
     for (let i=from; i<=to; i++) {

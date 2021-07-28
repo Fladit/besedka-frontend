@@ -65,9 +65,14 @@ const store = new Vuex.Store({
         async registration(context, payload) {
             try {
                 const response = await AuthService.registration(payload)
+                localStorage.setItem("token", response.data.accessToken)
+                localStorage.setItem("refresh", response.data.refreshToken)
+                const user = jwtDecode(response.data.accessToken)
+                context.commit('setUser', user)
+                await myRouter.push({path: `/${user.username}`})
             }
             catch (e) {
-
+                throw e
             }
         },
         async authentication(context) {

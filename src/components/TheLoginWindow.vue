@@ -20,7 +20,6 @@
 <script>
 import BaseAuthDebouncedInput from "@/components/BaseAuthDebouncedInput";
 import {customRules} from "@/utils/inputRules";
-import {AuthLogic} from "@/utils/Auth/AuthLogic";
 import {mapActions, mapMutations} from "vuex";
 
 export default {

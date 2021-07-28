@@ -66,7 +66,7 @@ export default {
         const {day, month, year} = val
         let returnedBirthDay = undefined
         if (day && month && year)
-          returnedBirthDay = new Date(year, month, day).toString()
+          returnedBirthDay = new Date(parseInt(year), monthsEnum[month].index, parseInt(day)).toString()
         this.$emit('input', returnedBirthDay)
       },
       deep: true,

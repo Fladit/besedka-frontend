@@ -41,6 +41,7 @@ import TheDatePicker from "@/components/TheDatePicker";
 import {AuthPropertyValidation} from "@/utils/Auth/AuthPropertyValidation";
 import {customRules} from "@/utils/inputRules";
 import {AuthLogic} from "@/utils/Auth/AuthLogic";
+import {mapActions} from "vuex";
 export default {
   name: "TheRegistrationWindow",
   components: {TheDatePicker, BaseAuthDebouncedInput},
@@ -80,10 +81,14 @@ export default {
         if (!this.user[property])
           return false;
       }
-      return this.user.password !== this.passwordRetry;
+      return this.user.password === this.passwordRetry;
     },
   },
   methods: {
+    ...mapActions([
+      'registration'
+    ]),
+
     validateUsername: AuthPropertyValidation.validateUsername,
     validatePasswordRetry: function (passwordRetry) {
       return AuthPropertyValidation.validatePasswordRetry(this.user.password, passwordRetry)
@@ -95,8 +100,12 @@ export default {
     register: async function () {
       if (this.isDataCorrect) {
         console.log("register")
-        const resp = await AuthLogic.registration(this.user)
-        return;
+        try {
+          await this.registration(this.user)
+        }
+        catch (e) {
+          alert(e.response.data.message)
+        }
       }
       this.turnOnErrorChecker()
     },
@@ -104,7 +113,7 @@ export default {
   watch: {
     "user.birthDay": {
       handler: function (val) {
-        console.log(val)
+        //console.log(val)
       },
       deep: true,
     },
