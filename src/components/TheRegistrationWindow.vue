@@ -81,6 +81,10 @@ export default {
         if (!this.user[property])
           return false;
       }
+      for (const error in this.errors) {
+        if (this.errors[error])
+          return false
+      }
       return this.user.password === this.passwordRetry;
     },
   },
@@ -90,18 +94,22 @@ export default {
     ]),
 
     validateUsername: AuthPropertyValidation.validateUsername,
+
     validatePasswordRetry: function (passwordRetry) {
       return AuthPropertyValidation.validatePasswordRetry(this.user.password, passwordRetry)
     },
+
     validateEmail: AuthPropertyValidation.validateEmail,
+
     turnOnErrorChecker: function () {
       this.errorSearcher += 1
     },
+
     register: async function () {
       if (this.isDataCorrect) {
-        console.log("register")
         try {
           await this.registration(this.user)
+          console.log("register")
         }
         catch (e) {
           alert(e.response.data.message)
@@ -114,22 +122,6 @@ export default {
     "user.birthDay": {
       handler: function (val) {
         //console.log(val)
-      },
-      deep: true,
-    },
-    errors: {
-      handler: function (errors) {
-        //console.log("change")
-        for (const property in errors) {
-          if (errors[property]) {
-            if (!this.isDataCorrect) {
-              this.isDataCorrect = true
-            }
-            return ;
-          }
-        }
-        if (this.isDataCorrect)
-          this.isDataCorrect = false
       },
       deep: true,
     },

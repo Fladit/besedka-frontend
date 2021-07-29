@@ -66,7 +66,8 @@ export default {
         const {day, month, year} = val
         let returnedBirthDay = undefined
         if (day && month && year)
-          returnedBirthDay = new Date(parseInt(year), monthsEnum[month].index, parseInt(day)).toString()
+          // Перевод в дату с форматом 'YYYY-MM-DD'
+          returnedBirthDay = `${year}-${("" + (monthsEnum[month].index + 1)).padStart(2, '0')}-${day.padStart(2, '0')}`
         this.$emit('input', returnedBirthDay)
       },
       deep: true,
